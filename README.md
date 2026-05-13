@@ -673,3 +673,8 @@ PHP_Laravel12_LaraPersonate/
 Your PHP_Laravel12_LaraPersonate Project is now ready!
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> development
