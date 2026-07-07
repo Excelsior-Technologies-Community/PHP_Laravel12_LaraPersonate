@@ -16,12 +16,6 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Profile Routes
-    |--------------------------------------------------------------------------
-    */
-
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -31,56 +25,26 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Admin User Management
-    |--------------------------------------------------------------------------
-    */
-
-    // Users List
     Route::get('/users', [UserController::class, 'index'])
         ->middleware('admin')
         ->name('users');
 
-    // Delete User
     Route::delete('/users/{id}', [UserController::class, 'destroy'])
         ->middleware('admin')
         ->name('users.destroy');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Impersonation Routes
-    |--------------------------------------------------------------------------
-    */
-
-    // Start Impersonation
-    Route::get('/impersonate/{id}', [ImpersonationController::class, 'impersonate'])
+    Route::post('/impersonate/{id}', [ImpersonationController::class, 'impersonate'])
         ->middleware('admin')
-        ->name('impersonate');
+        ->name('admin.impersonate.start');
 
-    // Leave Impersonation
-    Route::get('/impersonate-leave', [ImpersonationController::class, 'leave'])
-        ->name('impersonate.leave');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Quick Logout Route (Optional)
-    |--------------------------------------------------------------------------
-    */
+    Route::post('/impersonate-leave', [ImpersonationController::class, 'leave'])
+        ->name('admin.impersonate.stop');
 
     Route::get('/force-logout', function () {
-
         Auth::logout();
-
         request()->session()->invalidate();
-
         request()->session()->regenerateToken();
-
         return redirect('/login');
-
     })->name('force.logout');
 });
 
